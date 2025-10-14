@@ -6,9 +6,13 @@ AMyCharacter::AMyCharacter()
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
 
-	SpringArm->SetupAttachment(GetMesh());
+	SpringArm->SetupAttachment(RootComponent);
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 
 	Camera->SetupAttachment(SpringArm);
+
+	GetMesh()->SetupAttachment(SpringArm);
+
+	PlayerHealthComponent = CreateDefaultSubobject<UPlayerHealthComponent>("Player Health");
 }

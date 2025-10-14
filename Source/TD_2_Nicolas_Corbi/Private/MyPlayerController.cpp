@@ -58,6 +58,14 @@ void AMyPlayerController::Look(const FInputActionValue& Value)
 	AddPitchInput(Values.Y * GetWorld()->GetDeltaSeconds() * CameraSensitivity);
 }
 
+void AMyPlayerController::Jump(const FInputActionValue& Value)
+{
+	if (ACharacter* MyChara = Cast<ACharacter>(GetPawn()))
+	{
+		MyChara->Jump();
+	}
+}
+
 void AMyPlayerController::Shoot(const FInputActionValue& Value)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, "SHOOOOT");

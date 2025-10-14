@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "PlayerHealthComponent.h"
 #include "MyCharacter.generated.h"
 
 UCLASS()
@@ -19,4 +20,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UCameraComponent> Camera = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UPlayerHealthComponent> PlayerHealthComponent = nullptr;
 };
