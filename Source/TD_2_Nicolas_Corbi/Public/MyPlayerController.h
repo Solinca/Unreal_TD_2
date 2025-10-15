@@ -5,6 +5,7 @@
 #include "InputActionValue.h"
 #include "InputAction.h"
 #include "InputMappingContext.h"
+#include "MyCharacter.h"
 #include "MyPlayerController.generated.h"
 
 USTRUCT(BlueprintType)
@@ -53,4 +54,18 @@ private:
 
 	UFUNCTION()
 	void Shoot(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void SwitchWeapon1(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void SwitchWeapon2(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void SwitchWeapon3(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void ReloadWeapon(const FInputActionValue& Value);
+
+	AMyCharacter* MyChara = nullptr;
 };

@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "PlayerHealthComponent.h"
+#include "PlayerWeaponComponent.h"
 #include "MyCharacter.generated.h"
 
 UCLASS()
@@ -23,4 +24,20 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UPlayerHealthComponent> PlayerHealthComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UPlayerWeaponComponent> PlayerWeaponComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UStaticMeshComponent> PlayerWeaponMesh = nullptr;
+
+public:
+	UFUNCTION()
+	void ForwardShoot();
+
+	UFUNCTION()
+	void ForwardSwitchWeapon(int index);
+
+	UFUNCTION()
+	void ForwardReloadWeapon();
 };

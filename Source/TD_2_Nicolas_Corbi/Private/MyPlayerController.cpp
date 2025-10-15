@@ -12,6 +12,8 @@ void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	MyChara = Cast<AMyCharacter>(GetPawn());
+
 	if (!MappingContext)
 	{
 		return;
@@ -60,7 +62,7 @@ void AMyPlayerController::Look(const FInputActionValue& Value)
 
 void AMyPlayerController::Jump(const FInputActionValue& Value)
 {
-	if (ACharacter* MyChara = Cast<ACharacter>(GetPawn()))
+	if (MyChara)
 	{
 		MyChara->Jump();
 	}
@@ -68,5 +70,40 @@ void AMyPlayerController::Jump(const FInputActionValue& Value)
 
 void AMyPlayerController::Shoot(const FInputActionValue& Value)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, "SHOOOOT");
+	if (MyChara)
+	{
+		MyChara->ForwardShoot();
+	}
+}
+
+void AMyPlayerController::SwitchWeapon1(const FInputActionValue& Value)
+{
+	if (MyChara)
+	{
+		MyChara->ForwardSwitchWeapon(0);
+	}
+}
+
+void AMyPlayerController::SwitchWeapon2(const FInputActionValue& Value)
+{
+	if (MyChara)
+	{
+		MyChara->ForwardSwitchWeapon(1);
+	}
+}
+
+void AMyPlayerController::SwitchWeapon3(const FInputActionValue& Value)
+{
+	if (MyChara)
+	{
+		MyChara->ForwardSwitchWeapon(2);
+	}
+}
+
+void AMyPlayerController::ReloadWeapon(const FInputActionValue& Value)
+{
+	if (MyChara)
+	{
+		MyChara->ForwardReloadWeapon();
+	}
 }
