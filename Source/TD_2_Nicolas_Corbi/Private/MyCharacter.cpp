@@ -21,6 +21,8 @@ AMyCharacter::AMyCharacter()
 	PlayerWeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>("Player Weapon Mesh");
 
 	PlayerWeaponMesh->SetupAttachment(GetMesh());
+
+	PlayerWeaponComponent->SetMesh(PlayerWeaponMesh);
 }
 
 void AMyCharacter::ForwardShoot()

@@ -47,8 +47,6 @@ void UPlayerWeaponComponent::HandleShoot(FVector CameraLocation, FRotator Camera
 		}
 
 		OnWeaponAmmoChanged.Broadcast(WeaponsCurrentAmmo[CurrentIndex], WeaponDatas[CurrentIndex].MaxAmmunition);
-
-		OnWeaponShot.Broadcast();
 	}
 }
 
@@ -58,7 +56,9 @@ void UPlayerWeaponComponent::SwitchWeapon(int index)
 
 	CurrentIndex = index;
 
-	OnWeaponSwitched.Broadcast(WeaponDatas[CurrentIndex]);
+	WeaponMeshComponent->SetStaticMesh(WeaponDatas[CurrentIndex].WeaponMesh);
+
+	WeaponMeshComponent->AttachToComponent(WeaponMeshComponent->GetAttachParent(), FAttachmentTransformRules::KeepRelativeTransform , WeaponDatas[CurrentIndex].WeaponSocket);
 
 	OnWeaponAmmoChanged.Broadcast(WeaponsCurrentAmmo[CurrentIndex], WeaponDatas[CurrentIndex].MaxAmmunition);
 }
@@ -68,4 +68,9 @@ void UPlayerWeaponComponent::ReloadWeapon()
 	WeaponsCurrentAmmo[CurrentIndex] = WeaponDatas[CurrentIndex].MaxAmmunition;
 
 	OnWeaponAmmoChanged.Broadcast(WeaponsCurrentAmmo[CurrentIndex], WeaponDatas[CurrentIndex].MaxAmmunition);
+}
+
+void UPlayerWeaponComponent::SetMesh(UStaticMeshComponent* mesh)
+{
+	WeaponMeshComponent = mesh;
 }

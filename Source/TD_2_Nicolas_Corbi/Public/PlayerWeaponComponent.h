@@ -28,8 +28,6 @@ struct FWeaponData
 	float TimeBetweenShotInSeconds = 0;
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWeaponShotSignature);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWeaponSwitchedSignature, FWeaponData, WeaponData);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnWeaponAmmoChangedSignature, int, CurrentAmmo, int, MaxAmmo);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -42,6 +40,8 @@ private:
 
 	TArray<int> WeaponsCurrentAmmo;
 	TArray<float> WeaponsCurrentShotTimer;
+
+	TObjectPtr<UStaticMeshComponent> WeaponMeshComponent = nullptr;
 
 protected:	
 	UPlayerWeaponComponent();
@@ -61,11 +61,8 @@ public:
 	UFUNCTION()
 	void ReloadWeapon();
 
-	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
-	FOnWeaponSwitchedSignature OnWeaponSwitched;
-
-	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
-	FOnWeaponShotSignature OnWeaponShot;
+	UFUNCTION()
+	void SetMesh(UStaticMeshComponent* mesh);
 
 	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
 	FOnWeaponAmmoChangedSignature OnWeaponAmmoChanged;
