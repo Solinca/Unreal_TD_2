@@ -5,6 +5,8 @@
 AZombieAI::AZombieAI()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	HealthComponent = CreateDefaultSubobject<UPlayerHealthComponent>("Health Component");
 }
 
 void AZombieAI::BeginPlay()

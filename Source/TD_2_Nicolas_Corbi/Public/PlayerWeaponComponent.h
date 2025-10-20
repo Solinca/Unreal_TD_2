@@ -19,6 +19,9 @@ struct FWeaponData
 	int WeaponDamage = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon|Data")
+	int WeaponRange = 0;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon|Data")
 	int MaxAmmunition = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon|Data")
@@ -50,7 +53,7 @@ protected:
 
 public:	
 	UFUNCTION()
-	void HandleShoot();
+	void HandleShoot(FVector CameraLocation, FRotator CameraRotation);
 
 	UFUNCTION()
 	void SwitchWeapon(int index);

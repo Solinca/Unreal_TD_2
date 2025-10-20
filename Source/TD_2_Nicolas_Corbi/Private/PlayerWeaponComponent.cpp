@@ -1,4 +1,5 @@
 #include "PlayerWeaponComponent.h"
+#include <PlayerHealthComponent.h>
 
 UPlayerWeaponComponent::UPlayerWeaponComponent()
 {
@@ -25,13 +26,25 @@ void UPlayerWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	WeaponsCurrentShotTimer[CurrentIndex] += DeltaTime;
 }
 
-void UPlayerWeaponComponent::HandleShoot()
+void UPlayerWeaponComponent::HandleShoot(FVector CameraLocation, FRotator CameraRotation)
 {
 	if (WeaponsCurrentShotTimer[CurrentIndex] >= WeaponDatas[CurrentIndex].TimeBetweenShotInSeconds && WeaponsCurrentAmmo[CurrentIndex] > 0)
 	{
 		WeaponsCurrentShotTimer[CurrentIndex] = 0;
 
 		WeaponsCurrentAmmo[CurrentIndex]--;
+
+		FHitResult hit;
+
+		DrawDebugLine(GetWorld(), CameraLocation, CameraLocation + CameraRotation.Vector() * WeaponDatas[CurrentIndex].WeaponRange, FColor::Red, false, 1, 0, 0.5f);
+
+		if (GetWorld()->LineTraceSingleByProfile(hit, CameraLocation, CameraLocation + CameraRotation.Vector() * WeaponDatas[CurrentIndex].WeaponRange, "Bullet"))
+		{
+			if (UPlayerHealthComponent* HealthComponent = hit.GetActor()->GetComponentByClass<UPlayerHealthComponent>())
+			{
+				HealthComponent->TakeDamage(WeaponDatas[CurrentIndex].WeaponDamage);
+			}
+		}
 
 		OnWeaponAmmoChanged.Broadcast(WeaponsCurrentAmmo[CurrentIndex], WeaponDatas[CurrentIndex].MaxAmmunition);
 

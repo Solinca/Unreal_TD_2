@@ -27,7 +27,7 @@ void AMyCharacter::ForwardShoot()
 {
 	if (PlayerWeaponComponent)
 	{
-		PlayerWeaponComponent->HandleShoot();
+		PlayerWeaponComponent->HandleShoot(Camera->GetComponentLocation(), Camera->GetComponentRotation());
 	}
 }
 
