@@ -37,3 +37,12 @@ void UPlayerHealthComponent::TakeDamage(int value)
 		OnHealthDepleted.Broadcast();
 	}
 }
+
+void UPlayerHealthComponent::HealHealth(int value)
+{
+	CurrentHealth += value;
+
+	CurrentHealth = FMath::Clamp(CurrentHealth, 0, MaxHealth);
+
+	OnHealthChanged.Broadcast(CurrentHealth, MaxHealth);
+}

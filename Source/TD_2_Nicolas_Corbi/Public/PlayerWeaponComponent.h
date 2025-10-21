@@ -34,6 +34,7 @@ struct FWeaponData
 	float ReloadInterval = 0;
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUnlimitedAmmoBonusSignature, bool, IsActive);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnKillScoredSignature, int, Score);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnWeaponAmmoChangedSignature, int, CurrentAmmo, int, MaxAmmo);
 
@@ -44,6 +45,8 @@ class TD_2_NICOLAS_CORBI_API UPlayerWeaponComponent : public UActorComponent
 
 private:
 	int CurrentIndex = 0;
+
+	bool isUnlimitedAmmo = false;
 
 	TArray<int> WeaponsCurrentAmmo;
 	TArray<float> WeaponsCurrentShotTimer;
@@ -62,6 +65,8 @@ protected:
 
 	void ReloadOneAmmo();
 
+	void CancelUnlimitedAmmoBonus();
+
 public:	
 	UFUNCTION()
 	void HandleShoot(FVector CameraLocation, FRotator CameraRotation);
@@ -74,6 +79,12 @@ public:
 
 	UFUNCTION()
 	void SetMesh(UStaticMeshComponent* mesh);
+
+	UFUNCTION()
+	void TriggerUnlimitedAmmoBonus(float duration);
+
+	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
+	FOnUnlimitedAmmoBonusSignature OnUnlimitedAmmoBonus;
 
 	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
 	FOnWeaponAmmoChangedSignature OnWeaponAmmoChanged;

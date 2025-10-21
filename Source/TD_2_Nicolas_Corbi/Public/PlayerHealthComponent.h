@@ -34,6 +34,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TakeDamage(int value);
 
+	UFUNCTION(BlueprintCallable)
+	void HealHealth(int value);
+
 	UPROPERTY(BlueprintAssignable, Category = "HealthEvents")
 	FOnHealthDepletedSignature OnHealthDepleted;
 

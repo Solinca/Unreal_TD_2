@@ -34,7 +34,10 @@ void UPlayerWeaponComponent::HandleShoot(FVector CameraLocation, FRotator Camera
 
 		WeaponsCurrentShotTimer[CurrentIndex] = 0;
 
-		WeaponsCurrentAmmo[CurrentIndex]--;
+		if (!isUnlimitedAmmo)
+		{
+			WeaponsCurrentAmmo[CurrentIndex]--;
+		}
 
 		FHitResult hit;
 
@@ -96,4 +99,22 @@ void UPlayerWeaponComponent::ReloadOneAmmo()
 void UPlayerWeaponComponent::SetMesh(UStaticMeshComponent* mesh)
 {
 	WeaponMeshComponent = mesh;
+}
+
+void UPlayerWeaponComponent::TriggerUnlimitedAmmoBonus(float duration)
+{
+	isUnlimitedAmmo = true;
+
+	FTimerHandle UnlimitedAmmoHandle;
+
+	GetWorld()->GetTimerManager().SetTimer(UnlimitedAmmoHandle, this, &UPlayerWeaponComponent::CancelUnlimitedAmmoBonus, duration, false);
+
+	OnUnlimitedAmmoBonus.Broadcast(true);
+}
+
+void UPlayerWeaponComponent::CancelUnlimitedAmmoBonus()
+{
+	isUnlimitedAmmo = false;
+
+	OnUnlimitedAmmoBonus.Broadcast(false);
 }
