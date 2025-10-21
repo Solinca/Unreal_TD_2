@@ -27,7 +27,7 @@ void AZombieAI::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPr
 {
 	UPlayerHealthComponent* PlayerHealthComponent = OtherActor->GetComponentByClass<UPlayerHealthComponent>();
 
-	if (InvicibilityTime >= 0.7f && PlayerHealthComponent)
+	if (InvicibilityTime >= MaxInvicibilityTime && PlayerHealthComponent)
 	{
 		PlayerHealthComponent->TakeDamage(DamageToPlayer);
 

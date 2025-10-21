@@ -30,6 +30,8 @@ void UPlayerWeaponComponent::HandleShoot(FVector CameraLocation, FRotator Camera
 {
 	if (WeaponsCurrentShotTimer[CurrentIndex] >= WeaponDatas[CurrentIndex].TimeBetweenShotInSeconds && WeaponsCurrentAmmo[CurrentIndex] > 0)
 	{
+		GetWorld()->GetTimerManager().ClearTimer(Handle);
+
 		WeaponsCurrentShotTimer[CurrentIndex] = 0;
 
 		WeaponsCurrentAmmo[CurrentIndex]--;
@@ -43,6 +45,12 @@ void UPlayerWeaponComponent::HandleShoot(FVector CameraLocation, FRotator Camera
 			if (UPlayerHealthComponent* HealthComponent = hit.GetActor()->GetComponentByClass<UPlayerHealthComponent>())
 			{
 				HealthComponent->TakeDamage(WeaponDatas[CurrentIndex].WeaponDamage);
+
+				if (HealthComponent->GetCurrentHealth() == 0)
+				{
+					// Handle Score in GameState
+					OnKillScored.Broadcast(WeaponDatas[CurrentIndex].WeaponScore);
+				}
 			}
 		}
 
@@ -53,6 +61,8 @@ void UPlayerWeaponComponent::HandleShoot(FVector CameraLocation, FRotator Camera
 void UPlayerWeaponComponent::SwitchWeapon(int index)
 {
 	if (index >= WeaponDatas.Num()) return;
+
+	GetWorld()->GetTimerManager().ClearTimer(Handle);
 
 	CurrentIndex = index;
 
@@ -65,7 +75,20 @@ void UPlayerWeaponComponent::SwitchWeapon(int index)
 
 void UPlayerWeaponComponent::ReloadWeapon()
 {
-	WeaponsCurrentAmmo[CurrentIndex] = WeaponDatas[CurrentIndex].MaxAmmunition;
+	if (WeaponsCurrentAmmo[CurrentIndex] != WeaponDatas[CurrentIndex].MaxAmmunition)
+	{
+		GetWorld()->GetTimerManager().SetTimer(Handle, this, &UPlayerWeaponComponent::ReloadOneAmmo, WeaponDatas[CurrentIndex].ReloadInterval, true);
+	}
+}
+
+void UPlayerWeaponComponent::ReloadOneAmmo()
+{
+	WeaponsCurrentAmmo[CurrentIndex]++;
+
+	if (WeaponsCurrentAmmo[CurrentIndex] == WeaponDatas[CurrentIndex].MaxAmmunition)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(Handle);
+	}
 
 	OnWeaponAmmoChanged.Broadcast(WeaponsCurrentAmmo[CurrentIndex], WeaponDatas[CurrentIndex].MaxAmmunition);
 }

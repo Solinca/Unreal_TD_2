@@ -25,9 +25,16 @@ struct FWeaponData
 	int MaxAmmunition = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon|Data")
+	int WeaponScore = 0;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon|Data")
 	float TimeBetweenShotInSeconds = 0;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon|Data")
+	float ReloadInterval = 0;
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnKillScoredSignature, int, Score);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnWeaponAmmoChangedSignature, int, CurrentAmmo, int, MaxAmmo);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -41,6 +48,8 @@ private:
 	TArray<int> WeaponsCurrentAmmo;
 	TArray<float> WeaponsCurrentShotTimer;
 
+	FTimerHandle Handle;
+
 	TObjectPtr<UStaticMeshComponent> WeaponMeshComponent = nullptr;
 
 protected:	
@@ -50,6 +59,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	TArray<FWeaponData> WeaponDatas;
+
+	void ReloadOneAmmo();
 
 public:	
 	UFUNCTION()
@@ -66,4 +77,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
 	FOnWeaponAmmoChangedSignature OnWeaponAmmoChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
+	FOnKillScoredSignature OnKillScored;
 };

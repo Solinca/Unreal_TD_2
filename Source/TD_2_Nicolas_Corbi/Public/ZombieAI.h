@@ -18,11 +18,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
 	int DamageToPlayer;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
+	float MaxInvicibilityTime = 0.7f;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UPlayerHealthComponent> HealthComponent;
 
 private:
-	float InvicibilityTime = 0.7f;
+	float InvicibilityTime = MaxInvicibilityTime;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
