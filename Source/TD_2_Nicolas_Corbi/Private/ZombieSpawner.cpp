@@ -1,20 +1,15 @@
 #include "ZombieSpawner.h"
 
-AZombieSpawner::AZombieSpawner()
+UZombieSpawner::UZombieSpawner()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
+
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+
+	Mesh->SetupAttachment(this);
 }
 
-void AZombieSpawner::BeginPlay()
+void UZombieSpawner::Spawn()
 {
-	Super::BeginPlay();
-
-	FTimerHandle Handle;
-
-	GetWorld()->GetTimerManager().SetTimer(Handle, this, &AZombieSpawner::Spawn, DelayBetweenSpawn, true);
-}
-
-void AZombieSpawner::Spawn()
-{
-	GetWorld()->SpawnActor<AActor>(ZombieToSpawn, FTransform(GetActorLocation()), FActorSpawnParameters());
+	GetWorld()->SpawnActor<AActor>(ZombieToSpawn, Mesh->GetRelativeTransform(), FActorSpawnParameters());
 }

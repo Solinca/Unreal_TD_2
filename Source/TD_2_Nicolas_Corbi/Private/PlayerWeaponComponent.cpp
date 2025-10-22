@@ -106,6 +106,8 @@ void UPlayerWeaponComponent::TriggerUnlimitedAmmoBonus(float duration)
 {
 	isUnlimitedAmmo = true;
 
+	WeaponsCurrentAmmo[CurrentIndex] = WeaponDatas[CurrentIndex].MaxAmmunition;
+
 	FTimerHandle UnlimitedAmmoHandle;
 
 	GetWorld()->GetTimerManager().SetTimer(UnlimitedAmmoHandle, this, &UPlayerWeaponComponent::CancelUnlimitedAmmoBonus, duration, false);
