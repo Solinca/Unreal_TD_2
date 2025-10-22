@@ -15,5 +15,5 @@ void UZombieSpawner::Spawn()
 {
 	AActor* Zombie = GetWorld()->SpawnActor<AActor>(ZombieToSpawn, Mesh->GetRelativeTransform(), FActorSpawnParameters());
 
-	Cast<ACharacter>(Zombie)->GetCharacterMovement()->MaxWalkSpeed = FMath::RandRange(300, 600);
+	Cast<ACharacter>(Zombie)->GetCharacterMovement()->MaxWalkSpeed = FMath::RandRange(MinZombieSpeed, MaxZombieSpeed);
 }
