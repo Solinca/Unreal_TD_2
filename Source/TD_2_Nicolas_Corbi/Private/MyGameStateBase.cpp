@@ -13,3 +13,13 @@ void AMyGameStateBase::GainMoney(int amount)
 
 	OnMoneyGained.Broadcast(MONEY);
 }
+
+int AMyGameStateBase::RetrieveScore()
+{
+	return SCORE;
+}
+
+int AMyGameStateBase::RetrieveMoney()
+{
+	return MONEY;
+}

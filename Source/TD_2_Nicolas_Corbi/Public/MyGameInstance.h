@@ -2,9 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "MySaveGame.h"
 #include "MyGameInstance.generated.h"
-
-class UMySaveGame;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSaveFinishedSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLoadFinishedSignature, UMySaveGame*, MySaveGame);

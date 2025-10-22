@@ -15,4 +15,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Save")
 	TMap<FString, int> Leaderboards;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Save")
+	int TryNumber = 0;
 };

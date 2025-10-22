@@ -2,6 +2,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
+#include "MyGameStateBase.h"
+#include "MySaveGame.h"
+#include "Kismet/GameplayStatics.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -11,8 +14,6 @@ AMyPlayerController::AMyPlayerController()
 void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	MyChara = Cast<AMyCharacter>(GetPawn());
 
 	if (!MappingContext)
 	{
@@ -26,6 +27,14 @@ void AMyPlayerController::BeginPlay()
 			InputSystem->AddMappingContext(MappingContext, 0);
 		}
 	}
+
+	MyChara = Cast<AMyCharacter>(GetPawn());
+
+	MyChara->PlayerHealthComponent->OnHealthDepleted.AddUniqueDynamic(this, &AMyPlayerController::TriggerPlayerDeath);
+
+	MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	MyGameInstance->Load();
 }
 
 void AMyPlayerController::SetupInputComponent()
@@ -106,4 +115,15 @@ void AMyPlayerController::ReloadWeapon(const FInputActionValue& Value)
 	{
 		MyChara->ForwardReloadWeapon();
 	}
+}
+
+void AMyPlayerController::TriggerPlayerDeath()
+{
+	MyGameInstance->CustomSaveGame->LastDeathPosition = MyChara->GetActorLocation();
+
+	MyGameInstance->CustomSaveGame->Leaderboards.Add("AAA - " + MyGameInstance->CustomSaveGame->TryNumber++, Cast<AMyGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->RetrieveScore());
+
+	MyGameInstance->Save();
+
+	OnTriggerPlayerDeath.Broadcast();
 }

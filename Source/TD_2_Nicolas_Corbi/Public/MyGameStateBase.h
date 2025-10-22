@@ -23,6 +23,12 @@ public:
 	UFUNCTION()
 	void GainMoney(int money);
 
+	UFUNCTION()
+	int RetrieveScore();
+
+	UFUNCTION()
+	int RetrieveMoney();
+
 	UPROPERTY(BlueprintAssignable, Category = "Global Events")
 	FOnScoreGainedSignature OnScoreGained;
 

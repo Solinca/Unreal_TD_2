@@ -6,6 +6,7 @@
 #include "InputAction.h"
 #include "InputMappingContext.h"
 #include "MyCharacter.h"
+#include "MyGameInstance.h"
 #include "MyPlayerController.generated.h"
 
 USTRUCT(BlueprintType)
@@ -22,6 +23,8 @@ struct FInputData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input|Data")
 	FName ActionName;
 };
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTriggerPlayerDeathSignature);
 
 UCLASS()
 class TD_2_NICOLAS_CORBI_API AMyPlayerController : public APlayerController
@@ -41,6 +44,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input|Settings")
 	float CameraSensitivity = 50.0f;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnTriggerPlayerDeathSignature OnTriggerPlayerDeath;
 
 private:
 	UFUNCTION()
@@ -67,5 +73,10 @@ private:
 	UFUNCTION()
 	void ReloadWeapon(const FInputActionValue& Value);
 
+	UFUNCTION()
+	void TriggerPlayerDeath();
+
 	AMyCharacter* MyChara = nullptr;
+
+	UMyGameInstance* MyGameInstance = nullptr;
 };

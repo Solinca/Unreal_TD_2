@@ -23,15 +23,15 @@ protected:
 	TObjectPtr<UCameraComponent> Camera = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UStaticMeshComponent> PlayerWeaponMesh = nullptr;
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UPlayerHealthComponent> PlayerHealthComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UPlayerWeaponComponent> PlayerWeaponComponent = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UStaticMeshComponent> PlayerWeaponMesh = nullptr;
-
-public:
 	UFUNCTION()
 	void ForwardShoot();
 
