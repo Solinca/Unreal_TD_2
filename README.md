@@ -42,10 +42,17 @@ UI Types:
 Customization:
 
 BP_MyCharacter->PlayerWeaponComponent->WeaponData to modify Weapon Mesh, Damage, Range, Max Ammo, Score on kill, Time Between Shots and Reload Interval ( for one bullet )
+
 BP_MyCharacter->PlayerHealthComponent to modify Player Health
+
 BP_PlayerRemainingSoul to modify the amount of gold given
+
 BP_ZombieAI to modify damage to player and "invicibility time" ( time between attack on contact with player )
+
 BP_ZombieWaveManager to modify the delay between Zombie Spawn and the number of Zombie per wave
+
 BP_Bonus to modify the duration of Unlimited Ammo
+
 BP_Gold to modify the amount of gold given
+
 BP_Heart to modify the amount of health restored
