@@ -121,7 +121,7 @@ void AMyPlayerController::TriggerPlayerDeath()
 {
 	MyGameInstance->CustomSaveGame->LastDeathPosition = MyChara->GetActorLocation();
 
-	MyGameInstance->CustomSaveGame->Leaderboards.Add("AAA - " + MyGameInstance->CustomSaveGame->TryNumber++, Cast<AMyGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->RetrieveScore());
+	MyGameInstance->CustomSaveGame->Leaderboards.Add("AAA - " + FString::FromInt(MyGameInstance->CustomSaveGame->TryNumber++), Cast<AMyGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->RetrieveScore());
 
 	MyGameInstance->Save();
 

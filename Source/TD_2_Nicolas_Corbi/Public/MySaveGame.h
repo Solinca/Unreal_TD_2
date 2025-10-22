@@ -11,7 +11,7 @@ class TD_2_NICOLAS_CORBI_API UMySaveGame : public USaveGame
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Save")
-	FVector LastDeathPosition;
+	FVector LastDeathPosition = FVector::Zero();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Save")
 	TMap<FString, int> Leaderboards;
