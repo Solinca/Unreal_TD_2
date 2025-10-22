@@ -35,7 +35,6 @@ struct FWeaponData
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUnlimitedAmmoBonusSignature, bool, IsActive);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnKillScoredSignature, int, Score);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnWeaponAmmoChangedSignature, int, CurrentAmmo, int, MaxAmmo);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -88,7 +87,4 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
 	FOnWeaponAmmoChangedSignature OnWeaponAmmoChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "WeaponEvents")
-	FOnKillScoredSignature OnKillScored;
 };

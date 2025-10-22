@@ -1,5 +1,7 @@
 #include "PlayerWeaponComponent.h"
 #include <PlayerHealthComponent.h>
+#include <Kismet/GameplayStatics.h>
+#include <MyGameStateBase.h>
 
 UPlayerWeaponComponent::UPlayerWeaponComponent()
 {
@@ -51,8 +53,7 @@ void UPlayerWeaponComponent::HandleShoot(FVector CameraLocation, FRotator Camera
 
 				if (HealthComponent->GetCurrentHealth() == 0)
 				{
-					// Handle Score in GameState
-					OnKillScored.Broadcast(WeaponDatas[CurrentIndex].WeaponScore);
+					Cast<AMyGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GainScore(WeaponDatas[CurrentIndex].WeaponScore);
 				}
 			}
 		}

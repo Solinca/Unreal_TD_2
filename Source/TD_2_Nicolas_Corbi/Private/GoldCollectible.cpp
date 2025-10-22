@@ -1,5 +1,7 @@
 #include "GoldCollectible.h"
 #include "MyCharacter.h"
+#include <Kismet/GameplayStatics.h>
+#include <MyGameStateBase.h>
 
 AGoldCollectible::AGoldCollectible()
 {
@@ -16,7 +18,9 @@ void AGoldCollectible::OnOverlapBegin(UPrimitiveComponent* OverlappingComponent,
 {
 	if (Cast<AMyCharacter>(OtherActor))
 	{
-		// Handle Gold in GameState
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Gold gained : " + FString::FromInt(GoldGainAmount));
+		Cast<AMyGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GainMoney(GoldGainAmount);
+
+		Mesh->SetVisibility(false, true);
+		Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 }
