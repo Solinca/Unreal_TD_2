@@ -1,4 +1,6 @@
 #include "ZombieSpawner.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UZombieSpawner::UZombieSpawner()
 {
@@ -11,5 +13,7 @@ UZombieSpawner::UZombieSpawner()
 
 void UZombieSpawner::Spawn()
 {
-	GetWorld()->SpawnActor<AActor>(ZombieToSpawn, Mesh->GetRelativeTransform(), FActorSpawnParameters());
+	AActor* Zombie = GetWorld()->SpawnActor<AActor>(ZombieToSpawn, Mesh->GetRelativeTransform(), FActorSpawnParameters());
+
+	Cast<ACharacter>(Zombie)->GetCharacterMovement()->MaxWalkSpeed = FMath::RandRange(300, 600);
 }
