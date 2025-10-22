@@ -79,7 +79,7 @@ void UPlayerWeaponComponent::SwitchWeapon(int index)
 
 void UPlayerWeaponComponent::ReloadWeapon()
 {
-	if (WeaponsCurrentAmmo[CurrentIndex] != WeaponDatas[CurrentIndex].MaxAmmunition)
+	if (WeaponsCurrentAmmo[CurrentIndex] < WeaponDatas[CurrentIndex].MaxAmmunition)
 	{
 		GetWorld()->GetTimerManager().SetTimer(Handle, this, &UPlayerWeaponComponent::ReloadOneAmmo, WeaponDatas[CurrentIndex].ReloadInterval, true);
 	}
@@ -87,14 +87,16 @@ void UPlayerWeaponComponent::ReloadWeapon()
 
 void UPlayerWeaponComponent::ReloadOneAmmo()
 {
-	WeaponsCurrentAmmo[CurrentIndex]++;
-
-	if (WeaponsCurrentAmmo[CurrentIndex] == WeaponDatas[CurrentIndex].MaxAmmunition)
+	if (WeaponsCurrentAmmo[CurrentIndex] >= WeaponDatas[CurrentIndex].MaxAmmunition)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(Handle);
 	}
+	else
+	{
+		WeaponsCurrentAmmo[CurrentIndex]++;
 
-	OnWeaponAmmoChanged.Broadcast(WeaponsCurrentAmmo[CurrentIndex], WeaponDatas[CurrentIndex].MaxAmmunition);
+		OnWeaponAmmoChanged.Broadcast(WeaponsCurrentAmmo[CurrentIndex], WeaponDatas[CurrentIndex].MaxAmmunition);
+	}
 }
 
 void UPlayerWeaponComponent::SetMesh(UStaticMeshComponent* mesh)
@@ -106,7 +108,12 @@ void UPlayerWeaponComponent::TriggerUnlimitedAmmoBonus(float duration)
 {
 	isUnlimitedAmmo = true;
 
-	WeaponsCurrentAmmo[CurrentIndex] = WeaponDatas[CurrentIndex].MaxAmmunition;
+	for (int i = 0; i < WeaponsCurrentAmmo.Num(); i++)
+	{
+		WeaponsCurrentAmmo[i] = WeaponDatas[i].MaxAmmunition;
+	}
+
+	OnWeaponAmmoChanged.Broadcast(WeaponsCurrentAmmo[CurrentIndex], WeaponDatas[CurrentIndex].MaxAmmunition);
 
 	FTimerHandle UnlimitedAmmoHandle;
 
